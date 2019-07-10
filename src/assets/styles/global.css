@@ -1,0 +1,335 @@
+div, span, p {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  border: none;
+}
+
+/* 公共样式 统一使用rem布局 1rem = 750px中的100px */
+/* 边距 */
+.pd-0 {
+  padding: 0 !important;
+}
+.pd-20 {
+  padding: 0.2rem;
+}
+.pd-20-0 {
+  padding: 0.2rem 0;
+}
+.pd-10-20 {
+  padding: 0.1rem 0.2rem;
+}
+.pd-20-60 {
+  padding: 0.2rem 0.6rem;
+}
+.pd-0-20 {
+  padding: 0 0.2rem;
+}
+.p-l-20 {
+  padding-left: 0.2rem;
+}
+.p-l-40 {
+  padding-left: 0.4rem;
+}
+
+.p-r-40 {
+  padding-right: 0.4rem;
+}
+.p-b-25 {
+  padding-bottom: 0.25rem;
+}
+.p-b-40 {
+  padding-bottom: 0.4rem;
+}
+.p-b-100 {
+  padding-bottom: 1rem;
+}
+.p-t-25 {
+  padding-top: 0.25rem;
+}
+.p-t-40 {
+  padding-top: 0.4rem;
+}
+.p-t-50 {
+  padding-top: 0.5rem;
+}
+.p-t-100 {
+  padding-top: 1rem;
+}
+
+.m-t-4 {
+  margin-top: 0.04rem;
+}
+.m-t-5 {
+  margin-top: 0.05rem;
+}
+.m-t-15 {
+  margin-top: 0.15rem;
+}
+.m-t-20 {
+  margin-top: 0.2rem;
+}
+.m-t-25 {
+  margin-top: 0.25rem;
+}
+.m-t-30 {
+  margin-top: 0.3rem;
+}
+.m-t-40 {
+  margin-top: 0.4rem;
+}
+.m-t-100 {
+  margin-top: 1rem;
+}
+
+.m-l-15 {
+  margin-left: 0.15rem;
+}
+.m-l-20 {
+  margin-left: 0.20rem;
+}
+.m-l-90 {
+  margin-left: 0.9rem;
+}
+
+.m-b-4 {
+  margin-bottom: 0.04rem;
+}
+.m-b-10 {
+  margin-bottom: 0.1rem;
+}
+.m-b-15 {
+  margin-bottom: 0.15rem;
+}
+.m-b-20 {
+  margin-bottom: 0.2rem;
+}
+.m-b-40 {
+  margin-bottom: 0.4rem;
+}
+.m-b-60 {
+  margin-bottom: 0.6rem;
+}
+.m-r-10 {
+  margin-right: 0.1rem;
+}
+.m-r-20 {
+  margin-right: 0.2rem;
+}
+.m-r-40 {
+  margin-right: 0.4rem;
+}
+/* 定位 */
+.pos-rel {
+  position: relative;
+}
+
+/* 布局 */
+.disp-inline {
+  display: inline;
+}
+.disp-flex {
+  display: flex;
+}
+.flex-column {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
+}
+.justify-end {
+  justify-content: flex-end;
+}
+.align-center {
+  align-items: center;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-end {
+  align-items: flex-end;
+}
+.flex-auto {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+.direction-row {
+  flex-direction: row;
+}
+.direction-col {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-1 {
+  flex: 1;
+}
+
+/* 浮动 */
+.f-l {
+  float: left;
+}
+.f-r {
+  float: right;
+}
+.clear-float {
+  clear: both;
+}
+
+/* 字体对齐 */
+.tx-c {
+  text-align: center;
+}
+.tx-l {
+  text-align: left;
+}
+
+/* 背景颜色 */
+.bg-white {
+  background-color: #fff;
+}
+.bg-black {
+  background-color: #000;
+}
+.bg-trans {
+  background: transparent;
+}
+
+/* 字体颜色 */
+.c-333 {
+  color: #333;
+}
+.c-666 {
+  color: #666;
+}
+.c-999 {
+  color: #999;
+}
+.c-white {
+  color: #fff;
+}
+.c-blue {
+  color: #3D90CB;
+}
+.c-orange {
+  color: #FF9A41;
+}
+.c-green {
+  color: #3CD47C;
+}
+.c-red {
+  color: #C11C1C;
+}
+/* 字体大小 */
+.fz-12 {
+  font-size: 0.12rem !important;
+}
+.fz-14 {
+  font-size: 0.14rem !important;
+}
+.fz-24 {
+  font-size: 0.24rem !important;
+}
+.fz-26 {
+  font-size: 0.26rem !important;
+}
+.fz-28 {
+  font-size: 0.28rem !important;
+}
+.fz-30 {
+  font-size: 0.3rem !important;
+}
+.fz-32 {
+  font-size: 0.32rem !important;
+}
+.fz-38 {
+  font-size: 0.38rem !important;
+}
+.fz-40 {
+  font-size: 0.4rem !important;
+}
+
+/* 字体粗细 */
+.fz-bold {
+  font-weight: bold;
+}
+
+/* 宽高 */
+.h-32 {
+  height: 0.32rem;
+}
+.h-44 {
+  height: 0.44rem;
+}
+.h-100p {
+  height: 100%;
+}
+
+.w-32 {
+  width: 0.32rem;
+}
+.w-100p {
+  width: 100%;
+}
+.w-50p {
+  width: 50% !important;
+}
+
+/* 行高 */
+.lh-24 {
+  line-height: 0.24rem;
+}
+.lh-30 {
+  line-height: 0.30rem;
+}
+.lh-44 {
+  line-height: 0.44rem;
+}
+/* 宽度 */
+.w-33p {
+  width: 33%;
+}
+
+/* 边框 */
+.bor-all {
+  border: 1px solid rgba(221, 221, 221, 0.5)
+}
+.bor-t {
+  border-top: 1px solid rgba(221, 221, 221, 0.5)
+}
+.bor-b {
+  border-bottom: 1px solid rgba(221, 221, 221, 0.5)
+}
+.bor-l {
+  border-left: 1px solid rgba(221, 221, 221, 0.5)
+}
+.bor-radius {
+  border: 1px solid rgba(221, 221, 221, 0.5);
+  border-radius: 1rem;
+}
+.border-t-b {
+  border-top: 1px solid rgba(221, 221, 221, 0.5);
+}
+
+/* 容器 */
+.router-div {
+  display: block;
+  color: inherit;
+}
+.router-flex {
+  display: flex;
+  color: inherit;
+}
+.router-span {
+  display: flex;
+  color: inherit;
+}

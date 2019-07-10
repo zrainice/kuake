@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div,
+    span,
+    p,
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      height: 100%;
+    }
+
+    .control-bar {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      color: white;
+    }
+
+    .disp-flex {
+      display: flex;
+    }
+
+    .justify-end {
+      justify-content: flex-end;
+    }
+
+    .flex-auto {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+
+    .m-l-20 {
+      margin-left: 0.20rem;
+    }
+
+    .upper-tools {
+      background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0));
+    }
+
+    .bottom-tools {
+      flex-direction: column;
+      background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.5));
+    }
+
+    #progress-bar {
+      position: relative;
+      height: 2px;
+      width: 100%;
+      border-radius: 1px;
+      background: #FFCC00;
+    }
+
+    #progress-bar #progress-dot {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      left: 0;
+      top: -9px;
+      background: #fff;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="control-bar">
+    <div class="disp-flex justify-end upper-tools">
+      <div>音频</div>
+      <div class="m-l-20">更多</div>
+    </div>
+    <div class="disp-flex bottom-tools">
+      <div id="note-icon">写笔记</div>
+      <div class="disp-flex">
+        <div id="play" data-play="true">暂停</div>
+        <div class="m-l-20" id="currentTime">当前时间</div>
+        <div class="flex-auto m-l-20">
+          <div id="progress-bar">
+            <div id="progress-dot"></div>
+          </div>
+        </div>
+        <div class="m-l-20" id="totalTime">总时间</div>
+        <div class="m-l-20" id="full-screen-btn">全屏</div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script src="../js/appApi.js"></script>
+<script>
+  var timeHandler
+  var currentTime
+  var totalTime
+
+  var events = {
+    // 设置全屏
+    setFullScreen: function () {
+      api.sendEvent({
+        name: 'fullScreen',
+        extra: {
+          isFull: true
+        }
+      })
+    },
+    // 播放 - 开始 可以指定到某个地方时间进行播放
+    start: function () {
+      api.sendEvent({
+        name: 'playStart',
+        extra: {
+          time: currentTime
+        }
+      })
+    },
+    // 播放 - 停止
+    stop: function () {
+      api.sendEvent({
+        name: 'playStop'
+      })
+    },
+    // 切换音频
+    toggleAudio: function () {
+      api.sendEvent({
+        name: 'toggleAudio',
+        extra: {
+          time: currentTime
+        }
+      })
+    },
+    // 切换清晰度
+    changeDefinition: function (type) {
+      api.sendEvent({
+        name: 'changeDefinition',
+        extra: {
+          type: type
+        }
+      })
+    },
+    // 切换播放速速
+    changePlayRate: function (rate) {
+      api.sendEvent({
+        name: 'changePlayRate',
+        extra: {
+          rate: rate
+        }
+      })
+    },
+    // 写笔记
+    writeNote: function () {
+      api.sendEvent({
+        name: 'writeNote',
+        extra: {
+          time: currentTime
+        }
+      })
+    }
+  }
+
+  apiready = function () {
+    // 绑定监听事件
+    initEvent()
+    // 进行进行页面初始化
+    currentTime = api.pageParam.currentTime || 0
+    totalTime = api.pageParam.totalTime
+
+    var startTime = parseMSToString(currentTime)
+    var totalTimeString = parseMSToString(totalTime)
+    document.getElementById('currentTime').innerHTML = startTime
+    document.getElementById('totalTime').innerHTML = totalTimeString
+    // 设置播放条定时
+    getTimeInterval()
+    progressDotEvent()
+  }
+
+  // 生成播放器定时器
+  function getTimeInterval() {
+    timeHandler = setInterval(function () {
+      if (currentTime + 1000 > totalTime) {
+        currentTime = totalTime
+        clearInterval(timeHandler)
+      } else {
+        currentTime += 1000
+      }
+      updateProgressBar()
+    }, 1000)
+  }
+
+  // 更新播放条的位置
+  function updateProgressBar() {
+    // 距离左边的位移
+    var offsetLeft = (currentTime / totalTime).toFixed(2) * 100
+    document.getElementById('progress-dot').style.left = offsetLeft + '%'
+    document.getElementById('currentTime').innerHTML = parseMSToString(currentTime)
+  }
+
+  // 播放器进度条事件处理
+  function progressDotEvent() {
+    this.isTouching = false
+    var _this = this
+    var counter = 0
+    // 拖动开始
+    document.getElementById('progress-dot').addEventListener('touchstart', function (ev) {
+      if (_this.isTouching) {
+        _this.isTouching = false
+      } else {
+        _this.isTouching = true
+        counter = 0
+        events.stop()
+        clearInterval(timeHandler)
+      }
+    })
+    // 被拖动
+    document.getElementById('progress-dot').addEventListener('touchmove', function (ev) {
+      if (_this.isTouching) {
+        // !todo 待优化
+        var originLeft = document.getElementById('progress-bar').getBoundingClientRect().left
+        var totalWidth = document.getElementById('progress-bar').getBoundingClientRect().width
+
+        var pageX = ev.changedTouches[0].pageX
+        pageX = pageX < originLeft ? originLeft : pageX
+        pageX = (pageX - originLeft) > totalWidth ? (originLeft + totalWidth) : pageX
+        var percent = ((pageX - originLeft) / totalWidth).toFixed(2)
+        currentTime = totalTime * percent
+        updateProgressBar()
+      }
+    })
+    // 拖动结束
+    document.getElementById('progress-dot').addEventListener('touchend', function (ev) {
+      events.start()
+      _this.isTouching = false
+      getTimeInterval()
+    })
+  }
+
+  // 进行按钮事件绑定
+  function initEvent() {
+    // 全屏
+    document.getElementById('full-screen-btn').addEventListener('click', function () {
+      events.setFullScreen()
+    })
+    // 播放、暂停
+    var playBtn = document.getElementById('play')
+    playBtn.addEventListener('click', function () {
+      if (playBtn.dataset.play == "true") {
+        clearInterval(timeHandler)
+        events.stop()
+        playBtn.dataset.play = false
+        playBtn.innerHTML = '播放'
+      } else {
+        playBtn.dataset.play = true
+        playBtn.innerHTML = '暂停'
+        events.start()
+        getTimeInterval()
+      }
+    })
+
+    // 写笔记
+    document.getElementById('note-icon').addEventListener('click', function (ev) {
+      events.stop()
+      setTimeout(() => {
+        events.writeNote()
+      }, 50)
+    })
+
+  }
+
+  // 将毫秒转化成分钟:秒 字符串
+  function parseMSToString(ms) {
+    var _date = new Date(ms)
+    var minutes = _date.getMinutes()
+    var second = _date.getSeconds()
+    return minutes + ':' + second
+  }
+</script>
+
+</html>
